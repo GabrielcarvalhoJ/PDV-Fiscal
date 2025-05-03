@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login - PDV Fiscal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<nav class="menu">
+  <a href="index.html">Login</a>
+  <a href="produto.html">Cadastro de Produto</a>
+  <a href="venda.html">Tela de Vendas</a>
+  <a href="estoque.html">Controle de Estoque</a>
+</nav>
+
+  <div class="login-container">
+    <h2>Login no PDV Fiscal</h2>
+    <form>
+      <input type="text" placeholder="Usuário" required />
+      <input type="password" placeholder="Senha" required />
+      <button type="submit" onclick="event.preventDefault(); window.location.href='produto.html';">Entrar</button>
+    </form>
+  </div>
+</body>
+</html>

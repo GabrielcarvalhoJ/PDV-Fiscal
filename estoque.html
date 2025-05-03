@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Estoque - PDV Fiscal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<nav class="menu">
+  <a href="index.html">Login</a>
+  <a href="produto.html">Cadastro de Produto</a>
+  <a href="venda.html">Tela de Vendas</a>
+  <a href="estoque.html">Controle de Estoque</a>
+</nav>
+
+  <div class="login-container">
+    <h2>Controle de Estoque</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Categoria</th>
+          <th>Quantidade</th>
+          <th>Preço</th>
+          <th>Tipo</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="corpo-tabela"></tbody>
+    </table>
+  </div>
+  <script>
+    const tabela = document.getElementById("corpo-tabela");
+    let lista = JSON.parse(localStorage.getItem("produtos") || "[]");
+    function salvarLista() {
+      localStorage.setItem("produtos", JSON.stringify(lista));
+    }
+    function carregarTabela() {
+      tabela.innerHTML = "";
+      lista.forEach((p, i) => {
+        const linha = tabela.insertRow();
+        const qtd = p.tipo === "servico" ? "-" : p.quantidade;
+        linha.innerHTML = `
+          <td>${p.nome}</td>
+          <td>${p.categoria}</td>
+          <td>${qtd}</td>
+          <td>R$ ${parseFloat(p.preco).toFixed(2)}</td>
+          <td>${p.tipo}</td>
+          <td>
+            <button onclick="editarProduto(${i})">Editar</button>
+            <button onclick="removerProduto(${i})">Remover</button>
+          </td>`;
+      });
+    }
+    function editarProduto(i) {
+      const novaQtd = prompt("Nova quantidade:", lista[i].quantidade);
+      if (novaQtd !== null && !isNaN(novaQtd)) {
+        lista[i].quantidade = parseInt(novaQtd);
+        salvarLista();
+        carregarTabela();
+      }
+    }
+    function removerProduto(i) {
+      if (confirm("Deseja realmente remover?")) {
+        lista.splice(i, 1);
+        salvarLista();
+        carregarTabela();
+      }
+    }
+    carregarTabela();
+  </script>
+</body>
+</html>

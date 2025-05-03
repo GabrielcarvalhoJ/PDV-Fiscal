@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vendas - PDV Fiscal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<nav class="menu">
+  <a href="index.html">Login</a>
+  <a href="produto.html">Cadastro de Produto</a>
+  <a href="venda.html">Tela de Vendas</a>
+  <a href="estoque.html">Controle de Estoque</a>
+</nav>
+
+  <div class="login-container">
+    <h2>Tela de Vendas</h2>
+    <form id="form-venda">
+      <input type="text" id="produto" placeholder="Nome do produto" required />
+      <input type="number" id="quantidade" placeholder="Quantidade" min="1" required />
+      <input type="number" id="preco" placeholder="Preço unitário (R$)" step="0.01" required />
+      <button type="submit">Adicionar à Venda</button>
+    </form>
+    <h3>Itens da Venda</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Quantidade</th>
+          <th>Preço</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="itens-venda"></tbody>
+    </table>
+    <h3>Total: R$ <span id="total-geral">0.00</span></h3>
+    <button onclick="finalizarVenda()">Finalizar Venda</button>
+  </div>
+  <script>
+    const form = document.getElementById("form-venda");
+    const tabela = document.getElementById("itens-venda");
+    const totalGeral = document.getElementById("total-geral");
+    let total = 0;
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const nome = produto.value;
+      const qtd = parseInt(quantidade.value);
+      const precoUnit = parseFloat(preco.value);
+      const subtotal = qtd * precoUnit;
+      const linha = document.createElement("tr");
+      linha.innerHTML = `
+        <td>${nome}</td>
+        <td>${qtd}</td>
+        <td>R$ ${precoUnit.toFixed(2)}</td>
+        <td>R$ ${subtotal.toFixed(2)}</td>`;
+      tabela.appendChild(linha);
+      total += subtotal;
+      totalGeral.textContent = total.toFixed(2);
+      form.reset();
+    });
+    function finalizarVenda() {
+      if (total === 0) {
+        alert("Nenhum item adicionado!");
+        return;
+      }
+      alert("Venda finalizada! Total: R$ " + total.toFixed(2));
+      tabela.innerHTML = "";
+      total = 0;
+      totalGeral.textContent = "0.00";
+    }
+  </script>
+</body>
+</html>
